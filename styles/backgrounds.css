@@ -1,0 +1,324 @@
+/* =================================
+   BACKGROUND SYSTEM STYLES
+   ================================= */
+
+/* Global CSS Variables for Backgrounds */
+:root {
+  --bg-primary-gradient: linear-gradient(135deg, #22c55e 0%, #3b82f6 50%, #8b5cf6 100%);
+  --bg-eco-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --bg-night-gradient: linear-gradient(135deg, #1e1b4b 0%, #7c3aed 50%, #ec4899 100%);
+  --bg-sunset-gradient: linear-gradient(135deg, #fb923c 0%, #ef4444 50%, #ec4899 100%);
+--bg-auth-gradient: linear-gradient(135deg, #312e81 0%, #7c2d12 100%);
+-dashboard-gradient: linear-gradient(135deg, #f9fafb 0%, #dbeafe 50%, #e0e7ff 100%);
+  
+  /* Animation Durations */
+  --animate-slow: 3s;
+  --animate-medium: 2s;
+  --animate-fast: 1s;
+  
+  /* Opacity Values */
+  --bg-overlay-light: 0.1;
+  --bg-overlay-medium: 0.2;
+  --bg-overlay-strong: 0.3;
+}
+
+/* =================================
+   CUSTOM ANIMATIONS
+   ================================= */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  33% {
+    transform: translateX(10px) translateY(-10px);
+  }
+  66% {
+    transform: translateX(-5px) translateY(-5px);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slide-diagonal {
+  0% {
+    transform: translateX(-100px) translateY(-100px);
+  }
+  100% {
+    transform: translateX(100px) translateY(100px);
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+}
+
+/* =================================
+   ANIMATION UTILITY CLASSES
+   ================================= */
+
+.animate-float {
+  animation: float var(--animate-slow) ease-in-out infinite;
+}
+
+.animate-drift {
+  animation: drift 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow var(--animate-medium) ease-in-out infinite;
+}
+
+.animate-slide-diagonal {
+  animation: slide-diagonal 8s linear infinite;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 10s linear infinite;
+}
+
+.animate-wave {
+  animation: wave var(--animate-medium) ease-in-out infinite;
+}
+
+/* Delayed Animations */
+.animate-delay-1 { animation-delay: 0.5s; }
+.animate-delay-2 { animation-delay: 1s; }
+.animate-delay-3 { animation-delay: 1.5s; }
+.animate-delay-4 { animation-delay: 2s; }
+.animate-delay-5 { animation-delay: 2.5s; }
+
+/* =================================
+   BACKGROUND COMPONENT STYLES
+   ================================= */
+
+/* Hero Background Enhancements */
+.hero-bg-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  background-size: 200px 200px, 300px 300px;
+  animation: slide-diagonal 20s linear infinite;
+}
+
+/* Dashboard Background Grid */
+.dashboard-grid {
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Map Background Route Lines */
+.map-route-line {
+  stroke-dasharray: 10, 5;
+  animation: dash 2s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -15;
+  }
+}
+
+/* Auth Background Particles */
+.auth-particle {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float var(--animate-slow) ease-in-out infinite;
+}
+
+.auth-particle:nth-child(2n) {
+  animation-delay: 1s;
+  animation-duration: 4s;
+}
+
+.auth-particle:nth-child(3n) {
+  animation-delay: 2s;
+  animation-duration: 5s;
+}
+
+/* Booking Background Road Pattern */
+.booking-road {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 35px,
+    rgba(255, 255, 255, 0.1) 35px,
+    rgba(255, 255, 255, 0.1) 45px
+  );
+}
+
+/* Profile Background Hexagon Pattern */
+.profile-hexagon {
+  background-image: url("image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpolygon points='30,0 50,15 50,45 30,60 10,45 10,15'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+/* History Background Chart Lines */
+.history-chart-line {
+  stroke: rgba(139, 92, 246, 0.2);
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 5, 5;
+  animation: dash var(--animate-medium) linear infinite;
+}
+
+/* =================================
+   RESPONSIVE BACKGROUND ADJUSTMENTS
+   ================================= */
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .hero-bg-pattern {
+    background-size: 150px 150px, 200px 200px;
+  }
+  
+  .dashboard-grid {
+    background-size: 30px 30px;
+  }
+  
+  /* Reduce animation intensity on mobile for performance */
+  .animate-float {
+    animation-duration: 4s;
+  }
+  
+  .animate-pulse-glow {
+    animation-duration: 3s;
+  }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-bg-pattern {
+    background-size: 175px 175px, 250px 250px;
+  }
+}
+
+/* Desktop Enhancements */
+@media (min-width: 1025px) {
+  .hero-bg-pattern {
+    background-size: 250px 250px, 350px 350px;
+  }
+  
+  /* More complex animations on desktop */
+  .animate-drift {
+    animation-duration: 6s;
+  }
+}
+
+/* =================================
+   ACCESSIBILITY CONSIDERATIONS
+   ================================= */
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-drift,
+  .animate-pulse-glow,
+  .animate-slide-diagonal,
+  .animate-rotate-slow,
+  .animate-wave,
+  .hero-bg-pattern,
+  .map-route-line,
+  .history-chart-line {
+    animation: none;
+  }
+  
+  /* Provide subtle alternative effects */
+  .animate-float:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --bg-overlay-light: 0.2;
+    --bg-overlay-medium: 0.4;
+    --bg-overlay-strong: 0.6;
+  }
+}
+
+/* =================================
+   GLASS MORPHISM EFFECTS
+   ================================= */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.glass-card-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* =================================
+   GRADIENT OVERLAYS
+   ================================= */
+
+.gradient-overlay-top {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    transparent 100%
+  );
+}
+
+.gradient-overlay-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.3) 0%,
+    transparent 100%
+  );
+}

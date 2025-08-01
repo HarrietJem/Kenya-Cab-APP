@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ride Options - Futuristic UI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #00FFF7;
+      --accent: #2AF598;
+      --background: #111111;
+      --charcoal: #1A1A1D;
+      --text: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .ride-options-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .vehicle-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.3), inset -4px -4px 10px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+    }
+
+    .vehicle-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--primary);
+    }
+
+    .vehicle-card h2 {
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .vehicle-info {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .vehicle-info span {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .map-container {
+      margin: 40px 0;
+      background: #222;
+      height: 300px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ccc;
+      font-size: 1.2rem;
+    }
+
+    .payment-section {
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 15px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--text);
+    }
+
+    .payment-section h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .mpesa-info {
+      background: #0E1C17;
+      padding: 10px 15px;
+      border-left: 5px solid #2AF598;
+      border-radius: 10px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🚙 Ride Options</h1>
+  <div class="ride-options-container">
+    <div class="vehicle-card">
+      <h2>🚗 Sedan (Fuel, Solo)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Solo</span>
+        <span>Capacity: 3 pax</span>
+        <span>Note: Regular cab ride</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🚗 Sedan (Fuel, Shared)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Shared</span>
+        <span>Capacity: 3–4 pax</span>
+        <span>Note: Cheaper, slower, multiple pickups</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🚗 Sedan (EV, Solo)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Solo</span>
+        <span>Capacity: 3 pax</span>
+        <span>Note: Lower base rate than fuel</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🚗 Sedan (EV, Shared)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Shared</span>
+        <span>Capacity: 3–4 pax</span>
+        <span>Note: Lower rate, more eco-friendly</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🛵 Motorbike (Fuel, Solo)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Solo</span>
+        <span>Capacity: 1 pax</span>
+        <span>Note: Higher rate (private ride)</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🛵 Motorbike (Fuel, Shared)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Shared (2 pax)</span>
+        <span>Capacity: 2 pax</span>
+        <span>Note: 10–15% discount vs solo</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🛵 Motorbike (EV)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Solo/Shared</span>
+        <span>Capacity: 1–2 pax</span>
+        <span>Note: Cheaper than fuel, same logic as above</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>📦 Boda Delivery</h2>
+      <div class="vehicle-info">
+        <span>Mode: Parcel/Food</span>
+        <span>Capacity: 1–2 boxes</span>
+        <span>Note: Use flat rate or KM-based rate</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🚴 Bicycle (EV)</h2>
+      <div class="vehicle-info">
+        <span>Mode: Parcel/Food</span>
+        <span>Capacity: 1–2 boxes</span>
+        <span>Note: Very short distance use case</span>
+      </div>
+    </div>
+    <div class="vehicle-card">
+      <h2>🛺 Tuk Tuk</h2>
+      <div class="vehicle-info">
+        <span>Mode: Shared/Solo</span>
+        <span>Capacity: 3–4 pax</span>
+        <span>Note: Optional, local popular choice</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-container">
+    🚧 Map Placeholder – Add your Google Maps integration here
+  </div>
+
+  <div class="payment-section">
+    <h3>💳 MPESA Payment Integration</h3>
+    <div class="mpesa-info">
+      <p>Secure payments supported via MPESA. You can choose to pay directly from your phone after ride confirmation.</p>
+      <p>Future integration will support dynamic pricing and transaction confirmations.</p>
+    </div>
+  </div>
+</body>
+
+</html>

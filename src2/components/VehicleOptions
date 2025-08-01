@@ -1,0 +1,70 @@
+// pages/RideBooking.jsx
+import React, { useState } from 'react';
+import VehicleOptions from '../components/VehicleOptions';
+import ServiceSelector from '../components/ServiceSelector';
+
+const RideBooking = () => {
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [pickupLocation, setPickupLocation] = useState('');
+  const [destination, setDestination] = useState('');
+
+  const handleVehicleSelect = (vehicleType) => {
+    setSelectedVehicle(vehicleType);
+  };
+
+  const handleBookRide = () => {
+    if (!selectedVehicle || !pickupLocation || !destination) {
+      alert('Please fill all fields and select a vehicle');
+      return;
+    }
+    
+    // API call to book ride
+    console.log('Booking ride:', {
+      vehicle: selectedVehicle,
+      pickup: pickupLocation,
+      destination
+    });
+  };
+
+  return (
+    <div className="ride-booking-page">
+      <h1>Book Your Ride</h1>
+      
+      {/* Location Input Section */}
+      <div className="location-section">
+        <input
+          type="text"
+          placeholder="Pickup location"
+          value={pickupLocation}
+          onChange={(e) => setPickupLocation(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Destination"
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+        />
+      </div>
+
+      {/* Vehicle Selection */}
+      <VehicleOptions
+        selectedVehicle={selectedVehicle}
+        onVehicleSelect={handleVehicleSelect}
+      />
+
+      {/* Service Options */}
+      <ServiceSelector />
+
+      {/* Book Button */}
+      <button 
+        onClick={handleBookRide}
+        disabled={!selectedVehicle}
+        className="book-ride-btn"
+      >
+        Book Ride
+      </button>
+    </div>
+  );
+};
+
+export default RideBooking;

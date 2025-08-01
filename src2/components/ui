@@ -1,0 +1,424 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Star, MapPin, Clock, Users, Zap, Shield, Phone, CreditCard } from 'lucide-react';
+
+// Kenyan cities/towns for the animated background
+const kenyanCities = [
+  'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika', 'Malindi', 'Kitale',
+  'Garissa', 'Kakamega', 'Machakos', 'Meru', 'Nyeri', 'Kericho', 'Embu', 'Migori',
+  'Bungoma', 'Kimilili', 'Webuye', 'Busia', 'Siaya', 'Homa Bay', 'Kilifi', 'Lamu',
+  'Isiolo', 'Marsabit', 'Lodwar', 'Kapenguria', 'Bomet', 'Narok', 'Kajiado', 'Voi', 'Kitengela', 'Malava', 'Ruiru', 'Kisii', 'Nyahururu', 'Othaya', 'Kapsabet', 'Molo', 'Naivasha', 'Kendu Bay', 'Kakamega Town', 'Kisumu City', 'Lamu Town', 'Kilifi Town', 'Mombasa City', 'Nairobi City', 'Eldoret Town', 'Nakuru City', 'Nyeri Town', 'Meru Town', 'Embu Town', 'Thika Town', 'Machakos Town', 'Garissa Town', 'Kitui', 'Bomet Town', 'Utawala', 'Kajiado Town', 'Narok Town', 'Isiolo Town', 'Marsabit Town', 'Lodwar Town', 'Kapenguria Town', 'Webuye Town', 'Kimilili Town', 'Bungoma Town', 'Migori Town', 'Homa Bay Town', 'Siaya Town', 'Busia Town', 'Kilifi County', 'Lamu County', 'Kakamega County', 'Nakuru County', 'Mombasa County', 'Nairobi County', 'Eldoret County', 'Kasarani', 'Kibera', 'Mathare', 'Lang\'ata', 'Westlands', 'Karen', 'Ruiru', 'Gikambura', 'Kiserian', 'Ngong', 'Limuru', 'Ruai', 'Mlolongo', 'Kangundo', 'Machakos County', 'Nyandarua', 'Nyeri County', 'Otiende', 'Kayole', 'Umoja', 'Dandora', 'Kawangware', 'Gikambura', 'Kiserian', 'Ngong', 'Limuru', 'Ruai', 'Mlolongo', 'Kangundo', 'Machakos County', 'Nyandarua', 'Nyeri County', 'Otiende', 'Kayole', 'Umoja', 'Dandora', 'Kawangware', 'Gikambura', 'Kiserian', 'Ngong', 'Limuru', 'Ruai', 'Mlolongo', 'Kangundo', 'Machakos County', 'Mombasa Road', 'Jogoo Road', 'Thika Road', 'Lang\'ata Road', 'Uhuru Highway', 'Moi Avenue', 'Moi South Lake Road', 'Kenyatta Avenue', 'Kimathi Street', 'Uhuru Park', 'Central Park', 'City Square', 'Kenyatta International Conference Centre (KICC)', 'Nairobi National Park', 'Giraffe Centre', 'David Sheldrick Wildlife Trust', 'Karen Blixen Museum', 'Bomas of Kenya', 'Kazuri Beads Factory', 'Gikambura', 'Kiserian', 'Ngong', 'Limuru', 'Ruai', 'Mlolongo', 'Kangundo', 'Machakos County', ];
+
+// Animated Background Component
+const AnimatedBackground = () => {
+  const [cities, setCities] = useState([]);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const generateCities = () => {
+      const newCities = Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        name: kenyanCities[Math.floor(Math.random() * kenyanCities.length)],
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        speed: 0.1 + Math.random() * 0.3,
+        opacity: 0.1 + Math.random() * 0.2,
+        size: 0.8 + Math.random() * 0.4
+      }));
+      setCities(newCities);
+    };
+
+    generateCities();
+    const interval = setInterval(() => {
+      setCities(prev => prev.map(city => ({
+        ...city,
+        x: (city.x + city.speed) % 100,
+        opacity: 0.05 + Math.abs(Math.sin(Date.now() * 0.001 + city.id)) * 0.15
+      })));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {cities.map(city => (
+        <div
+          key={city.id}
+          className="absolute text-blue-500/20 font-mono text-sm select-none"
+          style={{
+            left: `${city.x}%`,
+            top: `${city.y}%`,
+            opacity: city.opacity,
+            fontSize: `${city.size}rem`,
+            transform: `translateZ(0)`,
+            animation: `float ${3 + city.id % 3}s ease-in-out infinite`
+          }}
+        >
+          {city.name}
+        </div>
+      ))}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// Button Component
+const Button = ({ 
+  children, 
+  variant = 'primary', 
+  size = 'md', 
+  loading = false, 
+  disabled = false,
+  onClick,
+  className = ''
+}) => {
+  const baseClasses = "relative font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg";
+  
+  const variants = {
+    primary: "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-blue-500/25",
+    secondary: "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 hover:from-gray-200 hover:to-gray-300 border border-gray-300",
+    success: "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600",
+    danger: "bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600"
+  };
+  
+  const sizes = {
+    sm: "px-4 py-2 text-sm",
+    md: "px-6 py-3 text-base",
+    lg: "px-8 py-4 text-lg"
+  };
+
+  return (
+    <button
+      className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      onClick={onClick}
+      disabled={disabled || loading}
+    >
+      {loading ? (
+        <div className="flex items-center justify-center">
+          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+          Loading...
+        </div>
+      ) : children}
+    </button>
+  );
+};
+
+// Input Component
+const Input = ({ 
+  label, 
+  type = 'text', 
+  placeholder, 
+  value, 
+  onChange, 
+  error, 
+  icon: Icon,
+  className = ''
+}) => {
+  return (
+    <div className={`relative ${className}`}>
+      {label && (
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {label}
+        </label>
+      )}
+      <div className="relative">
+        {Icon && (
+          <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        )}
+        <input
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={`w-full px-4 py-3 ${Icon ? 'pl-12' : ''} rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 bg-white/50 backdrop-blur-sm ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`}
+        />
+      </div>
+      {error && (
+        <p className="mt-2 text-sm text-red-600 flex items-center">
+          <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};
+
+// Card Component
+const Card = ({ children, className = '', hover = true }) => {
+  return (
+    <div className={`bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 shadow-xl ${hover ? 'hover:shadow-2xl hover:scale-105' : ''} transition-all duration-300 ${className}`}>
+      {children}
+    </div>
+  );
+};
+
+// Vehicle Type Card
+const VehicleCard = ({ vehicle, selected, onSelect }) => {
+  const vehicleTypes = {
+    solo: { icon: ' Solo', description: 'Perfect for one', price: 'KSh 50', color: 'from-yellow-400 to-orange-500' },
+    compact: { icon:'KC Compact', description: 'Up to 3 people', price: 'KSh 80', color: 'from-green-400 to-blue-500' },
+    comfort: { icon:'KC Comfort', description: 'Up to 4 people', price: 'KSh 120', color: 'from-blue-400 to-purple-500' },
+    group: { icon: 'KC Group', description: '5+ people', price: 'KSh 200', color: 'from-purple-400 to-pink-500' }
+  };
+
+  const vehicleData = vehicleTypes[vehicle];
+
+  return (
+    <Card 
+      className={`p-6 cursor-pointer transition-all duration-300 ${selected ? 'ring-4 ring-blue-500/50 bg-gradient-to-br from-blue-50 to-purple-50' : ''}`}
+      onClick={() => onSelect(vehicle)}
+    >
+      <div className="text-center">
+        <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${vehicleData.color} flex items-center justify-center text-2xl shadow-lg`}>
+          {vehicleData.icon}
+        </div>
+        <h3 className="font-bold text-lg text-gray-800 mb-1">{vehicleData.name}</h3>
+        <p className="text-sm text-gray-600 mb-2">{vehicleData.description}</p>
+        <div className="flex items-center justify-center">
+          <span className="text-lg font-bold text-green-600">{vehicleData.price}</span>
+          <span className="text-xs text-gray-500 ml-1">base fare</span>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+// Rating Component
+const Rating = ({ rating, size = 'md', showValue = true }) => {
+  const sizes = {
+    sm: 'w-4 h-4',
+    md: 'w-5 h-5',
+    lg: 'w-6 h-6'
+  };
+
+  return (
+    <div className="flex items-center">
+      {[1, 2, 3, 4, 5].map(star => (
+        <Star
+          key={star}
+          className={`${sizes[size]} ${star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+        />
+      ))}
+      {showValue && (
+        <span className="ml-2 text-sm font-medium text-gray-700">{rating.toFixed(1)}</span>
+      )}
+    </div>
+  );
+};
+
+// Badge Component
+const Badge = ({ children, variant = 'default', size = 'md' }) => {
+  const variants = {
+    default: 'bg-gray-100 text-gray-800',
+    success: 'bg-green-100 text-green-800',
+    warning: 'bg-yellow-100 text-yellow-800',
+    danger: 'bg-red-100 text-red-800',
+    info: 'bg-blue-100 text-blue-800'
+  };
+
+  const sizes = {
+    sm: 'px-2 py-1 text-xs',
+    md: 'px-3 py-1 text-sm',
+    lg: 'px-4 py-2 text-base'
+  };
+
+  return (
+    <span className={`inline-flex items-center rounded-full font-medium ${variants[variant]} ${sizes[size]}`}>
+      {children}
+    </span>
+  );
+};
+
+// Toast Component
+const Toast = ({ message, type = 'info', show, onClose }) => {
+  const types = {
+    success: 'bg-green-500 text-white',
+    error: 'bg-red-500 text-white',
+    warning: 'bg-yellow-500 text-white',
+    info: 'bg-blue-500 text-white'
+  };
+
+  useEffect(() => {
+    if (show) {
+      const timer = setTimeout(onClose, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [show, onClose]);
+
+  if (!show) return null;
+
+  return (
+    <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-xl shadow-lg ${types[type]} transform transition-all duration-300 ${show ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
+      <p className="font-medium">{message}</p>
+    </div>
+  );
+};
+
+// Main Demo Component
+const KCCabUIDemo = () => {
+  const [selectedVehicle, setSelectedVehicle] = useState('compact');
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
+  const [formData, setFormData] = useState({
+    pickup: '',
+    destination: '',
+    phone: ''
+  });
+
+  const showToast = (message, type = 'info') => {
+    setToast({ show: true, message, type });
+  };
+
+  const handleBooking = () => {
+    if (!formData.pickup || !formData.destination || !formData.phone) {
+      showToast('Please fill all fields', 'error');
+      return;
+    }
+    
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      showToast('Ride booked successfully! Driver will contact you soon.', 'success');
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
+      <AnimatedBackground />
+      
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            KC Cab
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Kenya's most innovative ride-hailing platform. Experience the future of transportation.
+          </p>
+        </div>
+
+        {/* Booking Form */}
+        <Card className="max-w-2xl mx-auto p-8 mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <MapPin className="w-6 h-6 mr-2 text-blue-500" />
+            Book Your Ride
+          </h2>
+          
+          <div className="space-y-6">
+            <Input
+              label="Pickup Location"
+              placeholder="Enter pickup location"
+              value={formData.pickup}
+              onChange={(e) => setFormData({...formData, pickup: e.target.value})}
+              icon={MapPin}
+            />
+            
+            <Input
+              label="Destination"
+              placeholder="Where to?"
+              value={formData.destination}
+              onChange={(e) => setFormData({...formData, destination: e.target.value})}
+              icon={MapPin}
+            />
+            
+            <Input
+              label="Phone Number"
+              type="tel"
+              placeholder="+254 XXX XXX XXX"
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              icon={Phone}
+            />
+          </div>
+        </Card>
+
+        {/* Vehicle Selection */}
+        <Card className="max-w-4xl mx-auto p-8 mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <Users className="w-6 h-6 mr-2 text-blue-500" />
+            Choose Your Vehicle
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {['solo', 'compact', 'comfort', 'group'].map(vehicle => (
+              <VehicleCard
+                key={vehicle}
+                vehicle={vehicle}
+                selected={selectedVehicle === vehicle}
+                onSelect={setSelectedVehicle}
+              />
+            ))}
+          </div>
+        </Card>
+
+        {/* Features */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto">
+          <Card className="p-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl flex items-center justify-center">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Real-time Tracking</h3>
+            <p className="text-gray-600">Track your ride in real-time with precise GPS</p>
+          </Card>
+          
+          <Card className="p-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center">
+              <Shield className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Safe & Secure</h3>
+            <p className="text-gray-600">Verified drivers and secure payments</p>
+          </Card>
+          
+          <Card className="p-6 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+              <CreditCard className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Multiple Payments</h3>
+            <p className="text-gray-600">M-Pesa, KC Cash, and international cards</p>
+          </Card>
+        </div>
+
+        {/* Rating Demo */}
+        <Card className="max-w-md mx-auto p-6 mb-8">
+          <h3 className="font-bold text-lg mb-4">Driver Rating</h3>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium">John Kipkemboi</p>
+              <p className="text-sm text-gray-600">5+ years experience</p>
+            </div>
+            <div className="text-right">
+              <Rating rating={4.8} />
+              <Badge variant="success" size="sm">Verified</Badge>
+            </div>
+          </div>
+        </Card>
+
+        {/* Action Button */}
+        <div className="text-center">
+          <Button
+            size="lg"
+            loading={loading}
+            onClick={handleBooking}
+            className="px-12"
+          >
+            Book KC Cab Now
+          </Button>
+        </div>
+      </div>
+
+      <Toast 
+        show={toast.show}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({...toast, show: false})}
+      />
+    </div>
+  );
+};
+
+export default KCCabUIDemo;

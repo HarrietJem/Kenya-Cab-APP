@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KC App - Book a Ride</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="intensity-medium">
+  <div class="bg-animation"></div>
+
+  <header class="header">
+    <h1 class="brand-name">Book a Ride</h1>
+    <p class="subtitle">Select your mode of travel, eco or fast!</p>
+  </header>
+
+  <main class="container">
+    <section class="location-inputs ui-card">
+      <label for="pickup">📍 Pickup Location</label>
+      <input type="text" id="pickup" placeholder="e.g. Central Mall" class="ui-input" />
+
+      <label for="dropoff">📍 Drop-off Location</label>
+      <input type="text" id="dropoff" placeholder="e.g. Airport Terminal" class="ui-input" />
+    </section>
+
+    <section class="vehicle-selector">
+      <h3 class="section-title">Choose a Ride</h3>
+      <div class="vehicle-grid">
+        <div class="vehicle-card" onclick="selectVehicle(this)" data-type="EV-Car-Solo">
+          <h4>🚗 EV Car - Solo</h4>
+          <p>Eco-friendly, faster than shared.</p>
+          <span>3 Pax • Lower rate</span>
+        </div>
+        <div class="vehicle-card" onclick="selectVehicle(this)" data-type="Fuel-Car-Shared">
+          <h4>🚕 Fuel Car - Shared</h4>
+          <p>Cheaper, multiple pickups.</p>
+          <span>4 Pax • Low cost</span>
+        </div>
+        <div class="vehicle-card" onclick="selectVehicle(this)" data-type="EV-Bike-Shared">
+          <h4>🏍️ EV Bike - Shared</h4>
+          <p>Affordable and fast.</p>
+          <span>1-2 Pax • Eco-friendly</span>
+        </div>
+        <div class="vehicle-card" onclick="selectVehicle(this)" data-type="TukTuk">
+          <h4>🛺 Tuk Tuk</h4>
+          <p>Local favorite ride.</p>
+          <span>3-4 Pax • Fuel</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions">
+      <button class="ui-button" onclick="confirmRide()">✅ Confirm Booking</button>
+      <button class="ui-button secondary" onclick="getEstimate()">💰 Get Fare Estimate</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
